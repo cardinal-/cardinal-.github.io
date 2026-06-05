@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Microsoft Defender Experts — Matt Cardinal</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div id="nav-placeholder"></div>
+
+  <div class="container">
+
+    <div class="cs-header">
+      <a class="back" href="work.html">← Back to work</a>
+      <h1>Security artifacts that communicate value</h1>
+      <div class="cs-meta-row">
+        <span><strong>Company</strong>Microsoft</span>
+        <span><strong>Role</strong>Lead UX Designer, Security</span>
+        <span><strong>Timeline</strong>September 2021 – April 2024</span>
+        <span><strong>Focus</strong>Security UX · Data visualization · Customer reporting</span>
+      </div>
+    </div>
+
+    <div class="cs-body">
+
+      <section>
+        <div class="cs-section-grid">
+          <div class="cs-section-label"><h4>The problem</h4></div>
+          <div>
+            <p>
+              Defender Experts is a managed security service that augments a customer's
+              security operations center by adding trained Microsoft analysts to their
+              environment. The service was doing real work — resolving incidents, hunting
+              threats, reducing customer burden. But customers couldn't see it. There was
+              no artifact that communicated what Microsoft was doing on their behalf or
+              demonstrated the value of the service in terms leadership could act on.
+            </p>
+            <p>
+              The problem had a business dimension too. Without a clear way to communicate
+              ROI, customers struggled to justify the service internally, and Microsoft
+              struggled to retain them. The goal was to ship a reporting experience that
+              answered the questions customers were actually asking.
+            </p>
+            <div class="img-placeholder" style="height: 220px;">
+              [ Slide: Defender Experts product overview — laptop mockup with report UI ]
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="cs-section-grid">
+          <div class="cs-section-label"><h4>Discovery</h4></div>
+          <div>
+            <h3>Three users, two workflows, different needs</h3>
+            <p>
+              Research identified three distinct stakeholders, each needing something
+              different from the report. The Chief Information Security Officer needed
+              strategic artifacts to share the state of security with leadership. The
+              Security Operations Center Manager needed to communicate across both tactical
+              and strategic forums. The SOC Analyst needed support in the field and
+              opportunities to learn.
+            </p>
+            <p>
+              Mapping both workflows revealed the core design challenge: the analyst loop
+              runs daily and hourly, generating incident reports that feed into the CISO
+              loop, which runs monthly and quarterly. The report needed to serve both
+              cadences and both audiences — tactical detail for the analyst, strategic
+              overview for the CISO — while connecting the two into a coherent picture
+              of service value.
+            </p>
+            <div class="img-placeholder" style="height: 220px;">
+              [ Stakeholder map: CISO / SOC Manager / SOC Analyst with struggles and needs ]
+            </div>
+            <div class="img-placeholder" style="height: 220px;">
+              [ Workflow diagram: analyst loop (daily) feeding into CISO loop (monthly) ]
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="cs-section-grid">
+          <div class="cs-section-label"><h4>Execution</h4></div>
+          <div>
+            <h3>How do we show up?</h3>
+            <p>
+              Early explorations focused on placement and presence before diving into
+              content. Three options were sketched: integrated as a card in the existing
+              dashboard, a larger footprint with a dedicated section on the home page, or
+              a fully standalone page with left navigation. The standalone approach won —
+              it gave the report the space to answer the breadth of questions customers
+              needed addressed without competing with other dashboard content.
+            </p>
+            <div class="img-placeholder" style="height: 220px;">
+              [ Sketches: three placement concepts — integrated, larger footprint, standalone ]
+            </div>
+
+            <h3 style="margin-top: 2rem;">Iterating toward the MVP</h3>
+            <p>
+              Early screen designs went through several rounds of iteration. Annotated
+              redlines called out specific problems in the existing report experience:
+              wording that needed tightening, data that needed to be stratified by severity,
+              missing context about response times, and charts that needed trended views
+              rather than point-in-time snapshots. Each annotation was a design decision
+              about what customers actually needed to understand.
+            </p>
+            <p>
+              The final report was structured to answer questions in sequence. An overview
+              statement gave a high-level read of service health. A 30-day default window
+              matched the CISO's need for a broad view. Incident breakdowns showed the
+              behind-the-scenes analyst activity. Time-to-resolve data answered the ROI
+              question directly. Impacted assets addressed tactical concerns for SOC Managers.
+            </p>
+            <div class="img-placeholder" style="height: 220px;">
+              [ Annotated redlines: existing report with design critique and direction ]
+            </div>
+            <div class="img-placeholder" style="height: 220px;">
+              [ Final MVP: Defender Experts Report — light and dark mode side by side ]
+            </div>
+            <div class="img-placeholder" style="height: 220px;">
+              [ Annotated final design: callouts for overview statement, 30-day view, incident breakdown, time to resolve ]
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="cs-section-grid">
+          <div class="cs-section-label"><h4>Outcomes</h4></div>
+          <div>
+            <ul class="outcome-list">
+              <li>Banner placement drove a 5x increase in engagement vs. the card view; report views increased 4x</li>
+              <li>100% of users engaged with the report, defined as 60-second dwell time or at least one drill-down</li>
+              <li>Average dwell time of 59 seconds — customers were reading, not bouncing</li>
+              <li>Customer feedback: "These categories are useful for our monthly Rhythm Of Business"</li>
+              <li>Customer feedback: "It feels good to be heard and for you to take our feedback into account"</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="cs-section-grid">
+          <div class="cs-section-label"><h4>What's next</h4></div>
+          <div>
+            <p>
+              Future considerations identified at the time of handoff included increasing
+              the number of data sources in the report, introducing ways to show volume
+              and trend together in the same section view, exposing threat intelligence
+              summaries of emerging threat actors, and using Copilot to generate summaries
+              similar to the Software Delivery Manager's talking points — an early signal
+              of where AI would take this kind of customer-facing reporting.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="cs-section-grid">
+          <div class="cs-section-label"><h4>Reflection</h4></div>
+          <div>
+            <p style="color: var(--color-muted); font-style: italic;">
+              [ What did designing at Microsoft's scale teach you? What was the hardest
+              part of working across a large cross-functional org — PM, engineering,
+              data, and customer success all in the loop? What would you do differently? ]
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="prev-next">
+      <a href="cs-keep-aware.html">← Keep Aware</a>
+      <a href="cs-ibm.html">Next: IBM ViewPoint →</a>
+    </div>
+
+  </div>
+
+  <div id="footer-placeholder"></div>
+  <script src="includes/site.js"></script>
+</body>
+</html>

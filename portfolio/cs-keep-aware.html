@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keep Aware — Matt Cardinal</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div id="nav-placeholder"></div>
+
+  <div class="container">
+
+    <div class="cs-header">
+      <a class="back" href="work.html">← Back to work</a>
+      <h1>Using design to build trust for enterprise customers</h1>
+      <div class="cs-meta-row">
+        <span><strong>Company</strong>Keep Aware</span>
+        <span><strong>Role</strong>Lead UX Designer (sole designer)</span>
+        <span><strong>Timeline</strong>2022 – present (~2 years)</span>
+        <span><strong>Focus</strong>Browser security / Enterprise SaaS</span>
+      </div>
+    </div>
+
+    <div class="cs-body">
+
+      <section>
+        <div class="cs-section-grid">
+          <div class="cs-section-label"><h4>The problem</h4></div>
+          <div>
+            <p>
+              Keep Aware had a working product and about 15 paying customers when I joined.
+              The product functioned — but the company was struggling to close larger enterprise
+              deals. Prospects were comparing Keep Aware directly against LayerX, SquareX,
+              and Seraphic, and the UX wasn't winning those conversations.
+            </p>
+            <p>
+              I was hired as the first and only designer, with a clear mandate: help the
+              company hit its pre-Series A annual recurring revenue target. The product needed to be enterprise-ready,
+              not just functional.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="cs-section-grid">
+          <div class="cs-section-label"><h4>Discovery</h4></div>
+          <div>
+            <h3>Full product audit</h3>
+            <p>
+              Before designing anything, I needed to understand the full scope of the problem.
+              I conducted a comprehensive product audit that surfaced over 100 documented issues
+              across accessibility, visual consistency, and data density. Rather than working
+              through them alone, I partnered with the engineering lead to prioritize by effort
+              and impact — so we were always working on what would move the needle fastest.
+            </p>
+            <div class="img-placeholder" style="height: 220px;">
+              [ Audit findings: annotated screenshot or issue categorization overview ]
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="cs-section-grid">
+          <div class="cs-section-label"><h4>Execution</h4></div>
+          <div>
+            <h3>Systematic improvement across the product</h3>
+            <p>
+              We worked through the audit backlog methodically — improving contrast ratios,
+              fixing color usage, and tightening layout consistency. Accessibility was a
+              thread throughout, not an afterthought. The goal wasn't a redesign; it was
+              raising the floor across the entire product.
+            </p>
+            <div class="img-placeholder" style="height: 220px;">
+              [ Before / after: contrast or accessibility improvement ]
+            </div>
+
+            <h3 style="margin-top: 2rem;">Replacing Material Design with a custom system</h3>
+            <p>
+              The deeper structural issue was the design foundation itself. The product was
+              built on Material Design — a system designed for consumer apps, not enterprise
+              security tooling. Material's defaults assume generous whitespace and limited
+              information density. Our users needed to scan and act on dense security data
+              quickly. Those goals are in direct conflict.
+            </p>
+            <p>
+              I identified the highest-friction patterns — tables, dropdowns, and modals —
+              and designed replacements optimized for data density. These became the core of
+              a Figma component library that the engineering team now uses in production.
+            </p>
+            <div class="img-placeholder" style="height: 220px;">
+              [ Design system: Figma component library overview ]
+            </div>
+            <div class="img-placeholder" style="height: 220px;">
+              [ Before / after: table or data-dense view — Material vs. custom components ]
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="cs-section-grid">
+          <div class="cs-section-label"><h4>Design infrastructure</h4></div>
+          <div>
+            <h3>Building a living design system site</h3>
+            <p>
+              As the sole designer, I needed the design system to be accessible and useful to
+              the whole team, not just me. I built and maintain an internal design documentation
+              site, written in code and versioned through GitHub. It serves as the single source
+              of truth for design at Keep Aware, with a changelog tracking every update.
+            </p>
+            <p>
+              The site is organized into five sections. Foundations covers color, typography,
+              logo usage, and voice and tone. Components documents key UI patterns from the
+              custom system. Patterns covers detailed interaction flows like sign-in and the
+              threat viewer. Resources links to the full Figma library. And Prototypes hosts
+              live interactive prototypes with documentation on what problem each one is
+              solving.
+            </p>
+            <div class="img-placeholder" style="height: 220px;">
+              [ Design site: foundations or components section screenshot ]
+            </div>
+
+            <h3 style="margin-top: 2rem;">Designed for AI-native workflows</h3>
+            <p>
+              From the start, I built the design site with more than documentation in mind.
+              As a small team, we're building toward a project pipeline where AI agents
+              participate directly in the design process. The site's structure is intentional:
+              consistent, well-organized, and machine-readable so that agents can query it,
+              reference it, and act on it.
+            </p>
+            <p>
+              The first focus is project scoping. Agents will pick up problems, help frame
+              them, and assist in roadmapping direction. This is early work, but the
+              infrastructure is already designed to support it. The goal is to multiply the
+              team's capacity without multiplying headcount, handling the kinds of upstream PM
+              activities that slow small teams down.
+            </p>
+            <div class="img-placeholder" style="height: 180px;">
+              [ Agent pipeline diagram or project scoping workflow ]
+            </div>
+
+            <h3 style="margin-top: 2rem;">Data visualization playground</h3>
+            <p>
+              One of the most useful things I built was an interactive playground for the
+              data visualization work on our dashboard. Rather than designing charts in
+              isolation, I coded a prototype that let the team explore every chart in four
+              states: empty, low data, ideal, and overfull. Each state was tested across
+              all breakpoints.
+            </p>
+            <p>
+              This became a direct handoff artifact for engineering. Instead of describing
+              edge cases in a spec document, we could point to the playground and say
+              "here is exactly how this chart behaves when there's no data, and here is
+              what it does when it's over capacity." It removed a significant amount of
+              back-and-forth from the implementation process.
+            </p>
+            <p>
+              I use Claude Code in the terminal to write and commit design assets like this,
+              opening PRs directly to the design site repo. The workflow lets me move at
+              engineering speed without needing a dedicated front-end developer to translate
+              design intent into working code.
+            </p>
+            <div class="img-placeholder" style="height: 220px;">
+              [ Data viz playground: chart states or breakpoint comparison ]
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="cs-section-grid">
+          <div class="cs-section-label"><h4>Outcomes</h4></div>
+          <div>
+            <ul class="outcome-list">
+              <li>3 six-figure enterprise deals closed following UX improvements</li>
+              <li>Users comparing Keep Aware to LayerX, SquareX, and Seraphic cite UX as a differentiator</li>
+              <li>Figma component library and coded design site both in production use</li>
+              <li>100+ audit issues resolved in partnership with engineering</li>
+              <li>Data viz playground used directly as an engineering handoff artifact</li>
+              <li>Design site is the single source of truth across foundations, components, patterns, and prototypes</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="cs-section-grid">
+          <div class="cs-section-label"><h4>Reflection</h4></div>
+          <div>
+            <p style="color: var(--color-muted); font-style: italic;">
+              [ What would you do differently? What tradeoffs did you make?
+              What did this project teach you about designing as a sole designer in a startup? ]
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="prev-next">
+      <a href="work.html">← All work</a>
+      <a href="cs-microsoft.html">Next: Microsoft →</a>
+    </div>
+
+  </div>
+
+  <div id="footer-placeholder"></div>
+  <script src="includes/site.js"></script>
+</body>
+</html>
