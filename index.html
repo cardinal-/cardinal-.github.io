@@ -2,8 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Matt Cardinal — UX Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-L89PG570C6"></script>
@@ -22,7 +34,7 @@
 
     <section id="hero-section">
       <p class="hero-role">Lead UX Designer &nbsp;·&nbsp; Enterprise &amp; Security SaaS</p>
-      <h1>I design complex systems<br>that feel simple to use.</h1>
+      <h1>I design complex systems<br>that feel <span class="accent">simple</span> to use.</h1>
       <p class="hero-tagline">
         I work at the intersection of dense data, enterprise workflows, and the humans
         who depend on them. I design, build, and ship — from interaction design and
@@ -51,9 +63,9 @@
       <div class="hero-logos">
         <span class="logo-label">Previously</span>
         <div class="logo-row">
-          <img src="IBM_logo.svg" alt="IBM" height="32" style="display:block; filter: grayscale(1); opacity: 0.4;">
-          <img src="microsoft-logo.svg" alt="Microsoft" height="70" style="display:block; opacity: 0.4;">
-          <img src="keepaware-logo.svg" alt="[current company]" height="28" style="display:block; opacity: 0.5;">
+          <img src="IBM_logo.svg" alt="IBM" height="32" class="hero-logo hero-logo--mono">
+          <img src="microsoft-logo.svg" alt="Microsoft" height="70" class="hero-logo">
+          <img src="keepaware-logo.svg" alt="[current company]" height="28" class="hero-logo">
         </div>
       </div>
     </section>
@@ -92,6 +104,15 @@
       </div>
     </section>
 
+  </div>
+
+  <div class="color-block color-block--navy cta-block">
+    <div class="color-block-inner">
+      <h4>Get in touch</h4>
+      <h2>Building something where UX actually moves the business?<br>Let's talk.</h2>
+      <p>I'm not actively looking, but I'm always open to conversations about interesting problems in enterprise SaaS and security.</p>
+      <a href="contact.html" class="btn-pill btn-pill--light">Contact me</a>
+    </div>
   </div>
 
   <div id="footer-placeholder"></div>
