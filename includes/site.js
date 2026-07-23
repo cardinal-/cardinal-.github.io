@@ -61,62 +61,92 @@ function animateCount(el, onComplete) {
   requestAnimationFrame(tick);
 }
 
-// Swap el's text for newText with an odometer-style roll: the current
-// value slides up and fades out while the new value slides in from below.
-// Guards against overlapping rolls by snapping any in-flight roll to its
-// end state first, so a fast-firing tick can never corrupt the display.
-function rollStatText(el, newText) {
+// Render newValue with an odometer-style roll where only the digits that
+// actually changed slide: a normal +1 tick rolls just the ones place; a
+// carry (…9 -> …0) rolls the ones and tens together; a double carry
+// (…99 -> …00) rolls three places, and so on. Digits that don't change,
+// and comma separators, stay put as plain static text.
+function renderStatRoll(el, oldValue, newValue) {
+  const prefixText = el.dataset.countPrefix || '';
+  const suffixText = el.dataset.countSuffix || '';
+  const newFormatted = newValue.toLocaleString('en-US');
+
   if (reducedMotion) {
-    el.textContent = newText;
+    el.textContent = prefixText + newFormatted + suffixText;
     return;
   }
 
-  if (el.dataset.rolling === '1') {
-    el.classList.remove('is-rolling-active');
-    el.style.height = '';
+  const newDigitsOnly = String(newValue);
+  const oldDigitsOnly = String(oldValue);
+  const pad = newDigitsOnly.length - oldDigitsOnly.length;
+  // Left-pad the old digits with a sentinel so positions line up by place
+  // value; a sentinel means "this digit didn't exist before" (a carry
+  // just created it), so it always counts as changed.
+  const oldPadded = (pad > 0 ? '\0'.repeat(pad) : '') + oldDigitsOnly;
+
+  const frag = document.createDocumentFragment();
+  if (prefixText) frag.append(document.createTextNode(prefixText));
+
+  let digitPointer = 0;
+  const changedCells = [];
+
+  for (const ch of newFormatted) {
+    if (ch === ',') {
+      frag.append(document.createTextNode(','));
+      continue;
+    }
+    const oldCh = oldPadded[digitPointer];
+    digitPointer++;
+    const isNew = oldCh === '\0';
+
+    if (!isNew && oldCh === ch) {
+      frag.append(document.createTextNode(ch));
+      continue;
+    }
+
+    const cell = document.createElement('span');
+    cell.className = 'stat-digit';
+
+    const currentSpan = document.createElement('span');
+    currentSpan.className = 'stat-roll-current';
+    currentSpan.textContent = isNew ? '' : oldCh;
+
+    const incomingSpan = document.createElement('span');
+    incomingSpan.className = 'stat-roll-incoming';
+    incomingSpan.textContent = ch;
+
+    cell.append(currentSpan, incomingSpan);
+    frag.append(cell);
+    changedCells.push({ cell, incomingSpan });
   }
-  el.dataset.rolling = '1';
+  if (suffixText) frag.append(document.createTextNode(suffixText));
 
-  const height = el.getBoundingClientRect().height;
-  const currentText = el.dataset.rollingText || el.textContent;
-
-  el.style.height = `${height}px`;
   el.innerHTML = '';
+  el.append(frag);
 
-  const currentSpan = document.createElement('span');
-  currentSpan.className = 'stat-roll-current';
-  currentSpan.textContent = currentText;
-
-  const incomingSpan = document.createElement('span');
-  incomingSpan.className = 'stat-roll-incoming';
-  incomingSpan.textContent = newText;
-
-  el.append(currentSpan, incomingSpan);
-  el.dataset.rollingText = newText;
+  if (!changedCells.length) return;
 
   // Double rAF so the browser paints the starting position before the
   // transition-triggering class is added, otherwise the transition can
-  // get coalesced away and the swap would just jump instantly.
+  // get coalesced away and the roll would just jump instantly.
   requestAnimationFrame(() => requestAnimationFrame(() => {
-    el.classList.add('is-rolling-active');
+    changedCells.forEach(({ cell }) => cell.classList.add('is-rolling-active'));
   }));
 
-  incomingSpan.addEventListener('transitionend', () => {
-    el.textContent = newText;
-    el.classList.remove('is-rolling-active');
-    el.style.height = '';
-    el.dataset.rolling = '';
-    delete el.dataset.rollingText;
-  }, { once: true });
+  changedCells.forEach(({ cell, incomingSpan }) => {
+    incomingSpan.addEventListener('transitionend', () => {
+      cell.replaceWith(document.createTextNode(incomingSpan.textContent));
+    }, { once: true });
+  });
 }
 
 // Bump a stat's printed number up by one, preserving its prefix/suffix
 function bumpStat(el) {
-  const current = parseInt(el.dataset.countValue, 10);
-  if (isNaN(current)) return;
-  const next = current + 1;
-  el.dataset.countValue = next;
-  rollStatText(el, formatStatValue(el, next));
+  const oldValue = parseInt(el.dataset.countValue, 10);
+  if (isNaN(oldValue)) return;
+  const newValue = oldValue + 1;
+  el.dataset.countValue = newValue;
+  renderStatRoll(el, oldValue, newValue);
 }
 
 // Count up each hero stat as it scrolls into view, then let any stat

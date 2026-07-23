@@ -157,11 +157,17 @@ p:last-child { margin-bottom: 0; }
   display: block;
   color: var(--accent);
   font-variant-numeric: tabular-nums;
-  position: relative;
-  overflow: hidden;
 }
 
-/* Odometer-style roll for the live-incrementing stat */
+/* Odometer-style roll for the live-incrementing stat: only the digit
+   cell(s) that actually changed get wrapped and animated; everything
+   else in the number is left as plain static text. */
+.stat-digit {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
 .stat-roll-current, .stat-roll-incoming {
   display: block;
   transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.5s ease;
@@ -173,8 +179,8 @@ p:last-child { margin-bottom: 0; }
   transform: translateY(100%);
   opacity: 0;
 }
-.stat-number.is-rolling-active .stat-roll-current { transform: translateY(-100%); opacity: 0; }
-.stat-number.is-rolling-active .stat-roll-incoming { transform: translateY(0); opacity: 1; }
+.stat-digit.is-rolling-active .stat-roll-current { transform: translateY(-100%); opacity: 0; }
+.stat-digit.is-rolling-active .stat-roll-incoming { transform: translateY(0); opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
   .stat-roll-current, .stat-roll-incoming { transition: none; }
