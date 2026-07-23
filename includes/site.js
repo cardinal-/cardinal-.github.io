@@ -15,24 +15,43 @@ function prefix() {
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Parse "prefix123,456suffix" into its parts, caching them on the element
+// so later reads don't depend on the currently-displayed (possibly
+// mid-animation) text.
+function parseStatText(el) {
+  const raw = el.textContent.trim();
+  const match = raw.match(/[\d,]+/);
+  if (!match) return null;
+  const value = parseInt(match[0].replace(/,/g, ''), 10);
+  if (isNaN(value)) return null;
+  return {
+    value,
+    prefix: raw.slice(0, match.index),
+    suffix: raw.slice(match.index + match[0].length),
+  };
+}
+
+function formatStatValue(el, value) {
+  return `${el.dataset.countPrefix}${value.toLocaleString('en-US')}${el.dataset.countSuffix}`;
+}
+
 // Animate a stat number counting up from 0 to its printed value, then
 // invoke onComplete (used to kick off any live-incrementing stats)
 function animateCount(el, onComplete) {
-  const raw = el.textContent.trim();
-  const match = raw.match(/[\d,]+/);
-  if (!match) return;
-  const target = parseInt(match[0].replace(/,/g, ''), 10);
-  if (isNaN(target)) return;
-  const prefixText = raw.slice(0, match.index);
-  const suffixText = raw.slice(match.index + match[0].length);
+  const parsed = parseStatText(el);
+  if (!parsed) return;
+  el.dataset.countPrefix = parsed.prefix;
+  el.dataset.countSuffix = parsed.suffix;
+  el.dataset.countValue = parsed.value;
+
   const duration = 1100;
   const start = performance.now();
 
   function tick(now) {
     const progress = Math.min((now - start) / duration, 1);
     const eased = 1 - Math.pow(1 - progress, 3);
-    const current = Math.round(target * eased);
-    el.textContent = prefixText + current.toLocaleString('en-US') + suffixText;
+    const current = Math.round(parsed.value * eased);
+    el.textContent = formatStatValue(el, current);
     if (progress < 1) {
       requestAnimationFrame(tick);
     } else if (onComplete) {
@@ -42,16 +61,62 @@ function animateCount(el, onComplete) {
   requestAnimationFrame(tick);
 }
 
+// Swap el's text for newText with an odometer-style roll: the current
+// value slides up and fades out while the new value slides in from below.
+// Guards against overlapping rolls by snapping any in-flight roll to its
+// end state first, so a fast-firing tick can never corrupt the display.
+function rollStatText(el, newText) {
+  if (reducedMotion) {
+    el.textContent = newText;
+    return;
+  }
+
+  if (el.dataset.rolling === '1') {
+    el.classList.remove('is-rolling-active');
+    el.style.height = '';
+  }
+  el.dataset.rolling = '1';
+
+  const height = el.getBoundingClientRect().height;
+  const currentText = el.dataset.rollingText || el.textContent;
+
+  el.style.height = `${height}px`;
+  el.innerHTML = '';
+
+  const currentSpan = document.createElement('span');
+  currentSpan.className = 'stat-roll-current';
+  currentSpan.textContent = currentText;
+
+  const incomingSpan = document.createElement('span');
+  incomingSpan.className = 'stat-roll-incoming';
+  incomingSpan.textContent = newText;
+
+  el.append(currentSpan, incomingSpan);
+  el.dataset.rollingText = newText;
+
+  // Double rAF so the browser paints the starting position before the
+  // transition-triggering class is added, otherwise the transition can
+  // get coalesced away and the swap would just jump instantly.
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    el.classList.add('is-rolling-active');
+  }));
+
+  incomingSpan.addEventListener('transitionend', () => {
+    el.textContent = newText;
+    el.classList.remove('is-rolling-active');
+    el.style.height = '';
+    el.dataset.rolling = '';
+    delete el.dataset.rollingText;
+  }, { once: true });
+}
+
 // Bump a stat's printed number up by one, preserving its prefix/suffix
 function bumpStat(el) {
-  const raw = el.textContent.trim();
-  const match = raw.match(/[\d,]+/);
-  if (!match) return;
-  const current = parseInt(match[0].replace(/,/g, ''), 10);
+  const current = parseInt(el.dataset.countValue, 10);
   if (isNaN(current)) return;
-  const prefixText = raw.slice(0, match.index);
-  const suffixText = raw.slice(match.index + match[0].length);
-  el.textContent = prefixText + (current + 1).toLocaleString('en-US') + suffixText;
+  const next = current + 1;
+  el.dataset.countValue = next;
+  rollStatText(el, formatStatValue(el, next));
 }
 
 // Count up each hero stat as it scrolls into view, then let any stat
@@ -66,7 +131,15 @@ function setupStatCounters() {
   };
 
   if (reducedMotion) {
-    statEls.forEach(startLiveIncrement);
+    statEls.forEach(el => {
+      const parsed = parseStatText(el);
+      if (parsed) {
+        el.dataset.countPrefix = parsed.prefix;
+        el.dataset.countSuffix = parsed.suffix;
+        el.dataset.countValue = parsed.value;
+      }
+      startLiveIncrement(el);
+    });
     return;
   }
 
