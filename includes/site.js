@@ -51,7 +51,7 @@ function setupScrollEffects() {
   }
 
   // Anything already in (or near) the viewport on load should appear
-  // immediately and quickly, not wait on a scroll-triggered observer —
+  // immediately and quickly, not wait on a scroll-triggered observer;
   // that's reserved for content the user hasn't scrolled to yet.
   const viewportH = window.innerHeight;
   const initiallyVisible = [];
