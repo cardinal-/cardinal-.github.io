@@ -15,8 +15,9 @@ function prefix() {
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Animate a stat number counting up from 0 to its printed value
-function animateCount(el) {
+// Animate a stat number counting up from 0 to its printed value, then
+// invoke onComplete (used to kick off any live-incrementing stats)
+function animateCount(el, onComplete) {
   const raw = el.textContent.trim();
   const match = raw.match(/[\d,]+/);
   if (!match) return;
@@ -32,18 +33,60 @@ function animateCount(el) {
     const eased = 1 - Math.pow(1 - progress, 3);
     const current = Math.round(target * eased);
     el.textContent = prefixText + current.toLocaleString('en-US') + suffixText;
-    if (progress < 1) requestAnimationFrame(tick);
+    if (progress < 1) {
+      requestAnimationFrame(tick);
+    } else if (onComplete) {
+      onComplete();
+    }
   }
   requestAnimationFrame(tick);
 }
 
-// Fade/slide elements in as they enter the viewport; count up stat numbers once
+// Bump a stat's printed number up by one, preserving its prefix/suffix
+function bumpStat(el) {
+  const raw = el.textContent.trim();
+  const match = raw.match(/[\d,]+/);
+  if (!match) return;
+  const current = parseInt(match[0].replace(/,/g, ''), 10);
+  if (isNaN(current)) return;
+  const prefixText = raw.slice(0, match.index);
+  const suffixText = raw.slice(match.index + match[0].length);
+  el.textContent = prefixText + (current + 1).toLocaleString('en-US') + suffixText;
+}
+
+// Count up each hero stat as it scrolls into view, then let any stat
+// tagged with data-live-interval keep quietly ticking up forever after
+function setupStatCounters() {
+  const statEls = Array.from(document.querySelectorAll('.stat-number'));
+
+  const startLiveIncrement = el => {
+    const interval = parseInt(el.dataset.liveInterval, 10);
+    if (!interval) return;
+    setInterval(() => bumpStat(el), interval);
+  };
+
+  if (reducedMotion) {
+    statEls.forEach(startLiveIncrement);
+    return;
+  }
+
+  const statObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCount(entry.target, () => startLiveIncrement(entry.target));
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.6 });
+
+  statEls.forEach(el => statObserver.observe(el));
+}
+
+// Fade/slide elements in as they enter the viewport
 function setupScrollEffects() {
   const revealSelector = '.container > section, .cs-header, .cs-body section, .work-index-item, .cta-block';
   const revealEls = Array.from(document.querySelectorAll(revealSelector));
   revealEls.forEach(el => el.classList.add('reveal'));
-
-  const statEls = Array.from(document.querySelectorAll('.stat-number'));
 
   if (reducedMotion) {
     revealEls.forEach(el => el.classList.add('is-visible'));
@@ -81,17 +124,6 @@ function setupScrollEffects() {
   }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
   belowFold.forEach(el => revealObserver.observe(el));
-
-  const statObserver = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        animateCount(entry.target);
-        obs.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.6 });
-
-  statEls.forEach(el => statObserver.observe(el));
 }
 
 // Wire up the dark-mode toggle button (theme is already applied pre-paint
@@ -153,6 +185,7 @@ async function init() {
   setupThemeToggle();
   setupStickyNav();
   setupScrollEffects();
+  setupStatCounters();
 }
 
 document.addEventListener('DOMContentLoaded', init);
