@@ -229,26 +229,6 @@ function setupScrollEffects() {
   belowFold.forEach(el => revealObserver.observe(el));
 }
 
-// Wire up the dark-mode toggle button (theme is already applied pre-paint
-// by the inline script in <head>; this just handles clicks going forward)
-function setupThemeToggle() {
-  const btn = document.getElementById('theme-toggle');
-  if (!btn) return;
-  const root = document.documentElement;
-
-  const sync = () => {
-    btn.setAttribute('aria-pressed', String(root.getAttribute('data-theme') === 'dark'));
-  };
-  sync();
-
-  btn.addEventListener('click', () => {
-    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('theme', next); } catch (e) {}
-    sync();
-  });
-}
-
 // Hide the nav when scrolling down, reveal it when scrolling up
 function setupStickyNav() {
   const nav = document.querySelector('.site-nav');
@@ -285,7 +265,6 @@ async function init() {
     if (isActive) a.classList.add('active');
   });
 
-  setupThemeToggle();
   setupStickyNav();
   setupScrollEffects();
   setupStatCounters();

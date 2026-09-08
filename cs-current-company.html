@@ -3,17 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <link rel="icon" type="image/png" href="favicon.png">
-  <script>
-    (function () {
-      try {
-        var t = localStorage.getItem('theme');
-        if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', t);
-      } catch (e) {}
-    })();
-  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[current company] | Matt Cardinal</title>
+  <title>Mobile app for security professionals | Matt Cardinal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -36,12 +27,12 @@
     <div class="cs-header color-block color-block--navy">
       <div class="color-block-inner">
         <a class="back" href="work.html">← Back to work</a>
-        <h1>Using design to build trust for enterprise customers</h1>
+        <h1>Inventing a mobile app for security professionals</h1>
         <div class="cs-meta-row">
           <span><strong>Company</strong>[current company]</span>
           <span><strong>Role</strong>Lead UX Designer (sole designer)</span>
-          <span><strong>Timeline</strong>2022 – present (~2 years)</span>
-          <span><strong>Focus</strong>Browser security / Enterprise SaaS</span>
+          <span><strong>Timeline</strong>2023 – present (~18 months)</span>
+          <span><strong>Focus</strong>Mobile UX / Security operations · 0-to-1</span>
         </div>
       </div>
     </div>
@@ -53,15 +44,18 @@
           <div class="cs-section-label"><h4>The problem</h4></div>
           <div>
             <p>
-              [current company] had a working product and about 15 paying customers when I joined.
-              The product functioned, but the company was struggling to close larger enterprise
-              deals. Those customers had different expectations and our product wasn't effectively 
-              communicating that we were enterprise ready. 
+              [current company]'s product was desktop-only, but the people using it —
+              SOC analysts and incident responders — don't stop being on-call when they
+              close their laptop. When a high-severity alert fired outside business hours,
+              there was no way to triage or respond without getting to a workstation, and
+              by the time someone did, they were walking in cold.
             </p>
             <p>
-              I was hired as the first and only designer, with a clear mandate: help the
-              company hit its pre-Series A annual recurring revenue target. The product needed to be enterprise-ready,
-              not just functional.
+              [ Describe how this problem surfaced — a customer request, a churn signal,
+              a support pattern — and why leadership greenlit exploring a mobile product. ]
+              I was asked to validate whether a mobile companion app made sense for our
+              security-conscious enterprise customers, and if so, take it from concept to a
+              shipped v1 as the sole designer on the project.
             </p>
           </div>
         </div>
@@ -71,15 +65,28 @@
         <div class="cs-section-grid">
           <div class="cs-section-label"><h4>Discovery</h4></div>
           <div>
-            <h3>Full product audit</h3>
+            <h3>Talking to analysts about life outside the SOC</h3>
             <p>
-              Before designing anything, I needed to understand the full scope of the problem.
-              I conducted a comprehensive product audit that surfaced over 100 issues
-              across accessibility, visual consistency, and data density. I documented the issues and partnered with the engineering lead to prioritize by effort
-              and impact, so we could start with what would move the needle fastest.
+              [ Describe the research: how many analysts/incident responders you talked to,
+              across how many accounts, and what methods you used (interviews, shadowing
+              on-call shifts, diary studies). ] The clearest theme: people were already
+              improvising mobile workflows with email forwards and Slack pings, which meant
+              missed alerts, duplicated effort, and no reliable way to actually act on
+              anything from a phone.
             </p>
             <div class="img-placeholder" style="height: 220px;">
-              [ Audit findings: annotated screenshot or issue categorization overview ]
+              [ Research synthesis: workflow map or interview theme summary ]
+            </div>
+
+            <h3 style="margin-top: 2rem;">Defining what actually belongs on mobile</h3>
+            <p>
+              Not every desktop workflow translates to a phone, and trying to cram the full
+              product into a small screen would have solved nothing. [ Describe how you
+              scoped the minimum viable action set for mobile — e.g. acknowledge, triage
+              severity, escalate, add a note — versus what stays desktop-only. ]
+            </p>
+            <div class="img-placeholder" style="height: 220px;">
+              [ Scope map: mobile-first actions vs. desktop-only workflows ]
             </div>
           </div>
         </div>
@@ -89,38 +96,39 @@
         <div class="cs-section-grid">
           <div class="cs-section-label"><h4>Execution</h4></div>
           <div>
-            <h3>Systematic improvement across the product</h3>
+            <h3>Designing for glanceable, high-stakes decisions</h3>
             <p>
-              We worked through the audit backlog methodically, improving contrast ratios,
-              fixing color usage, and tightening layout consistency. Accessibility was a
-              key focal point. In larger companies there are often accessibility requirements that help companies
-               achieve mandated compliance and I knew that we would be making the product better for every user if 
-               we mad it better for users with specific needs. The goal wasn't a redesign; it was
-              raising the floor across the entire product.
+              The desktop product was built for depth — dense tables, layered detail views,
+              time to dig in. Mobile forced the opposite: a security professional glancing
+              at a lock screen needs to know, in seconds, whether something requires action
+              right now. [ Describe the visual/information hierarchy decisions you made to
+              support that — severity color coding, progressive disclosure, card layouts. ]
             </p>
             <div class="img-placeholder" style="height: 220px;">
-              [ Before / after: contrast or accessibility improvement ]
+              [ Alert detail screen: desktop density vs. mobile glanceability ]
             </div>
 
-            <h3 style="margin-top: 2rem;">Replacing Material Design with a custom system</h3>
+            <h3 style="margin-top: 2rem;">Actionable notifications as the core interaction</h3>
             <p>
-              The deeper structural issue was the design foundation itself. The product was
-              built on Material Design, a system designed for consumer apps, not enterprise
-              security tooling. Material's defaults assume generous whitespace and limited
-              information density. Our users needed to scan and act on dense security data
-              quickly. Those goals are in direct conflict.
-            </p>
-            <p>
-              A bigger issue was general lack of consistency across the product. We were using multiple versions
-              of buttons and other elements that should have been more standardized. I started with the button and designed and documented
-              a set of buttons that would become the first component for 
-              a Figma library to document and enforce consistency.
+              For a lot of the target workflow, the app itself almost disappears — the real
+              interaction happens at the notification. [ Describe how you designed
+              actionable push notifications (acknowledge/escalate directly from the lock
+              screen), deep linking into the right alert, and how you handled offline or
+              delayed-delivery states. ]
             </p>
             <div class="img-placeholder" style="height: 220px;">
-              [ Design system: Figma component library overview ]
+              [ Notification design: lock screen actions and deep-link flow ]
             </div>
+
+            <h3 style="margin-top: 2rem;">Prototyping in code to test the real feel</h3>
+            <p>
+              Static mockups don't tell you whether a swipe-to-triage gesture actually feels
+              fast under pressure. [ Describe the coded/interactive prototypes you built to
+              test real interaction timing and gestures with analysts before committing
+              engineering resources to the native build. ]
+            </p>
             <div class="img-placeholder" style="height: 220px;">
-              [ Before / after: table or data-dense view, Material vs. custom components ]
+              [ Prototype: gesture interaction or usability test session ]
             </div>
           </div>
         </div>
@@ -130,65 +138,28 @@
         <div class="cs-section-grid">
           <div class="cs-section-label"><h4>Design infrastructure</h4></div>
           <div>
-            <h3>Building a living design system site</h3>
+            <h3>A mobile-specific component library</h3>
             <p>
-              As the sole designer, I needed the design system to be accessible and useful to
-              the whole team, not just me. I built and maintain an internal design documentation
-              site, written in code and versioned through GitHub. It serves as the single source
-              of truth for design at [current company], with a changelog tracking every update.
-            </p>
-            <p>
-              The site covers color, typography,
-              logo usage, and voice and tone as well as key UI patterns found in product. We also host live prototypes on the site where I am able to show coded 
-              examples of how an experience is designed to work. The design site provides a visual partner to our codebase and has been useful for clearing up exactly how 
-              interface elements are intended to work.
+              The existing design system was built around dense desktop tables — it had no
+              answer for touch targets, thumb reach, or platform-native motion. [ Describe
+              how you built out a parallel mobile pattern library (in Figma / code), and how
+              you kept it consistent with the existing brand and design language while
+              adapting it for iOS and Android conventions. ]
             </p>
             <div class="img-placeholder" style="height: 220px;">
-              [ Design site: foundations or components section screenshot ]
+              [ Mobile component library: variants and states ]
             </div>
 
-            <h3 style="margin-top: 2rem;">Designed for AI-native workflows</h3>
+            <h3 style="margin-top: 2rem;">Designing while shipping fast</h3>
             <p>
-              From the start, I built the design site with more than documentation in mind.
-              As a small team, we're building toward a project pipeline where AI agents
-              participate directly in the design process. The site's structure is intentional:
-              consistent, well-organized, and machine-readable so that agents can query it,
-              reference it, and act on it.
-            </p>
-            <p>
-              The first focus is project scoping. Agents will pick up problems, help frame
-              them, and assist in roadmapping direction. This is early work, but the
-              infrastructure is already designed to support it. The goal is to multiply the
-              team's capacity without multiplying headcount, handling the kinds of upstream PM
-              activities that slow small teams down.
-            </p>
-            <div class="img-placeholder" style="height: 180px;">
-              [ Agent pipeline diagram or project scoping workflow ]
-            </div>
-
-            <h3 style="margin-top: 2rem;">Data visualization playground</h3>
-            <p>
-              One of the most useful things I built was an interactive playground for the
-              data visualization work on our dashboard. Rather than designing charts in
-              isolation, I coded a prototype that let the team explore every chart in four
-              states: empty, low data, ideal, and overfull. Each state was tested across
-              all breakpoints.
-            </p>
-            <p>
-              This became a direct handoff artifact for engineering. Instead of describing
-              edge cases in a spec document, we could point to the playground and say
-              "here is exactly how this chart behaves when there's no data, and here is
-              what it does when it's over capacity." It removed a significant amount of
-              back-and-forth from the implementation process.
-            </p>
-            <p>
-              I use Claude Code in the terminal to write and commit design assets like this,
-              opening PRs directly to the design site repo. The workflow lets me move at
-              engineering speed without needing a dedicated front-end developer to translate
-              design intent into working code.
+              As the sole designer on a 0-to-1 mobile product, I worked in close, continuous
+              loop with engineering rather than handing off a finished spec. [ Describe your
+              working relationship with the mobile engineers, how design decisions got
+              validated against real builds quickly, and any tooling (e.g. coded prototypes,
+              shared component naming) that kept design and engineering in sync. ]
             </p>
             <div class="img-placeholder" style="height: 220px;">
-              [ Data viz playground: chart states or breakpoint comparison ]
+              [ Design/engineering workflow: build cadence or handoff artifact ]
             </div>
           </div>
         </div>
@@ -199,12 +170,11 @@
           <div class="cs-section-label"><h4>Outcomes</h4></div>
           <div>
             <ul class="outcome-list">
-              <li>3 six-figure enterprise deals closed following UX improvements</li>
-              <li>Users begin to cite UX as a differentiator for [current company] vs the competition within 8 months</li>
-              <li>Figma component library and coded design site both in production use</li>
-              <li>100+ audit issues resolved in partnership with engineering</li>
-              <li>Data viz playground used directly as an engineering handoff artifact</li>
-              <li>Design site is the single source of truth across foundations, components, patterns, and prototypes</li>
+              <li>[ Shipped v1 of the iOS/Android companion app in X months ]</li>
+              <li>[ X% of critical alerts acknowledged within Y minutes of push, down from Z hours via desktop-only workflows ]</li>
+              <li>[ App adopted by X% of active analyst users within the first quarter post-launch ]</li>
+              <li>[ Mobile design patterns now referenced as the foundation for the broader mobile roadmap ]</li>
+              <li>[ Qualitative feedback from customers — a representative quote about the on-call experience ]</li>
             </ul>
           </div>
         </div>
@@ -215,8 +185,10 @@
           <div class="cs-section-label"><h4>Reflection</h4></div>
           <div>
             <p style="color: var(--color-muted); font-style: italic;">
-              [ What would you do differently? What tradeoffs did you make?
-              What did this project teach you about designing as a sole designer in a startup? ]
+              [ What would you do differently on a 0-to-1 mobile product? How did designing
+              for a brand-new platform change your process compared to iterating on an
+              existing desktop product? What surprised you about how security professionals
+              actually used their phones on the job? ]
             </p>
           </div>
         </div>
