@@ -249,6 +249,35 @@ function setupStickyNav() {
   }, { passive: true });
 }
 
+
+// Build a "Jump to" index from each case study section label so long
+// case studies can be skimmed. Only runs when there are 4+ sections.
+function setupJumpIndex() {
+  const body = document.querySelector('.cs-body');
+  if (!body) return;
+  const sections = Array.from(body.querySelectorAll(':scope > section'))
+    .filter(s => s.querySelector('.cs-section-label h4'));
+  if (sections.length < 4) return;
+
+  const nav = document.createElement('nav');
+  nav.className = 'cs-jump';
+  nav.setAttribute('aria-label', 'Case study sections');
+  nav.innerHTML = '<h4>Jump to</h4>';
+  const list = document.createElement('ol');
+
+  sections.forEach(section => {
+    const label = section.querySelector('.cs-section-label h4').textContent.trim();
+    const id = label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    section.id = section.id || id;
+    const li = document.createElement('li');
+    li.innerHTML = `<a href="#${section.id}">${label}</a>`;
+    list.append(li);
+  });
+
+  nav.append(list);
+  body.before(nav);
+}
+
 async function init() {
   const p = prefix();
   await loadInclude('#nav-placeholder',    p + 'includes/nav.html');
@@ -265,6 +294,7 @@ async function init() {
     if (isActive) a.classList.add('active');
   });
 
+  setupJumpIndex();
   setupStickyNav();
   setupScrollEffects();
   setupStatCounters();
